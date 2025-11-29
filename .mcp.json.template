@@ -33,6 +33,15 @@
         "Content-Type": "application/json"
       },
       "comment": "Requires SSH tunnel - see MCP-SETUP.md"
+    },
+    "nocodb": {
+      "type": "http",
+      "url": "http://YOUR_REMOTE_HOST:8080/api/v1",
+      "headers": {
+        "xc-auth": "YOUR_NOCODB_API_TOKEN",
+        "Content-Type": "application/json"
+      },
+      "comment": "NocoDB API - get token from NocoDB UI: Account Settings > API Tokens"
     }
   }
 }

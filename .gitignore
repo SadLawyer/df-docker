@@ -9,3 +9,8 @@ data/
 *.key
 *_rsa
 *_rsa.pub
+
+# NocoDB environment files
+.env.nocodb
+backup_*.sql
+backups/
