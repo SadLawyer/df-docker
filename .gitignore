@@ -1,2 +1,11 @@
 .idea
 data/
+
+# MCP configuration with credentials
+.mcp.json
+
+# SSH keys (stored in ~/.ssh instead)
+*.pem
+*.key
+*_rsa
+*_rsa.pub

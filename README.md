@@ -126,3 +126,32 @@ push notifications? Require API limiting and/or auditing? Schedule a demo [with 
 ## Feedback and Contributions
 
 Feedback is welcome on our [forum](http://community.dreamfactory.com/) or in the form of pull requests and/or issues. Contributions should follow the strategy outlined in ["Contributing to a project"](http://help.github.com/articles/fork-a-repo#contributing-to-a-project).
+
+---
+
+## MCP Server Configuration
+
+This repository includes configuration files for connecting Claude Code to MCP (Model Context Protocol) servers running in Docker containers.
+
+### Files
+- `.mcp.json` - MCP server configuration for Claude Code
+- `MCP-SETUP.md` - Comprehensive setup guide and documentation
+- `setup-mcp-tunnels.sh` - Script to create SSH tunnels for remote MCP servers
+- `stop-mcp-tunnels.sh` - Script to stop all SSH tunnels
+- `mcp-ssh-tunnel.sh` - Helper script for container discovery
+
+### Quick Start
+
+See [MCP-SETUP.md](MCP-SETUP.md) for detailed instructions on:
+- Configuring MCP servers (docker-mcp, fetch-mcp, filesystem-mcp, notion-mcp)
+- Setting up SSH tunnels for remote container access
+- Authentication and security setup
+- Troubleshooting common issues
+
+### MCP Servers Configured
+- **docker-mcp**: Docker management MCP server
+- **fetch-mcp**: HTTP fetch capabilities MCP server
+- **filesystem-mcp**: File system access MCP server
+- **notion-mcp**: Notion API integration MCP server
+
+All servers use Basic Authentication with the credentials specified in `.mcp.json`.

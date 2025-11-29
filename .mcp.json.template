@@ -1,0 +1,38 @@
+{
+  "mcpServers": {
+    "docker-mcp": {
+      "type": "http",
+      "url": "http://YOUR_REMOTE_HOST:3002",
+      "headers": {
+        "Authorization": "Basic YOUR_BASE64_ENCODED_CREDENTIALS",
+        "Content-Type": "application/json"
+      }
+    },
+    "filesystem-mcp": {
+      "type": "http",
+      "url": "http://YOUR_REMOTE_HOST:3003",
+      "headers": {
+        "Authorization": "Basic YOUR_BASE64_ENCODED_CREDENTIALS",
+        "Content-Type": "application/json"
+      }
+    },
+    "fetch-mcp": {
+      "type": "http",
+      "url": "http://localhost:3004",
+      "headers": {
+        "Authorization": "Basic YOUR_BASE64_ENCODED_CREDENTIALS",
+        "Content-Type": "application/json"
+      },
+      "comment": "Requires SSH tunnel - see MCP-SETUP.md"
+    },
+    "notion-mcp": {
+      "type": "http",
+      "url": "http://localhost:3005",
+      "headers": {
+        "Authorization": "Basic YOUR_BASE64_ENCODED_CREDENTIALS",
+        "Content-Type": "application/json"
+      },
+      "comment": "Requires SSH tunnel - see MCP-SETUP.md"
+    }
+  }
+}
