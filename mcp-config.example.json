@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "mcp-server-commands": {
+      "command": "docker",
+      "args": [
+        "exec",
+        "-i",
+        "df-mcp-server",
+        "npx",
+        "mcp-server-commands"
+      ],
+      "description": "MCP Server para executar comandos shell no container Docker"
+    }
+  }
+}

@@ -64,6 +64,24 @@ services:
 #    ports:
 #      - "80:80"
 
+  mcp-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.mcp
+    container_name: df-mcp-server
+    volumes:
+      - mcp-data:/data
+      # Compartilhar socket do Docker se necessário executar comandos Docker
+      # - /var/run/docker.sock:/var/run/docker.sock
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    networks:
+      - default
+    # Porta para acesso externo ao MCP server (se necessário)
+    ports:
+      - "3000:3000"
+
 #  Uncomment to enable Logs DB
 #  logsdb:
 #    image: mongo:4.0-xenial
@@ -75,4 +93,6 @@ volumes:
   df-storage:
     driver: local
   df-mysql:
+    driver: local
+  mcp-data:
     driver: local

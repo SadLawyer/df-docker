@@ -1,2 +1,6 @@
 .idea
 data/
+
+# MCP Server - configurações locais
+mcp-config.json
+*.local.json

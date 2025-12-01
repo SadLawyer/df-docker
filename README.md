@@ -24,6 +24,7 @@
 
 * <a href="#prerequisites">Prerequisites</a>
 * <a href="#installation">Installation</a>
+* <a href="#mcp-server">MCP Server Commands</a>
 * <a href="#licensed">DreamFactory Licensed Edition</a>
 * <a href="#persistent">Persisting Data</a>
 * <a href="#testing">Testing Data</a>
@@ -72,6 +73,56 @@ The easiest way to configure the DreamFactory application is to use docker-compo
 
 ### 5) Access Admin UI
 Go to `127.0.0.1` in your browser. It will take some time upon building, but you will be asked to create your first admin user.
+
+<a name="mcp-server"></a>
+## MCP Server Commands (Optional)
+
+This repository includes an optional [MCP (Model Context Protocol) Server](https://github.com/g0t4/mcp-server-commands) that allows AI assistants like Claude to execute shell commands in a containerized environment.
+
+### Quick Start
+
+```bash
+# Build and start the MCP server
+docker-compose build mcp-server
+docker-compose up -d mcp-server
+
+# Check status
+docker ps | grep df-mcp-server
+
+# View logs
+docker logs -f df-mcp-server
+```
+
+### Using with Claude Desktop
+
+Add this configuration to your Claude Desktop config file:
+
+**MacOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+**Windows**: `%APPDATA%/Claude/claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "docker-commands": {
+      "command": "docker",
+      "args": ["exec", "-i", "df-mcp-server", "npx", "mcp-server-commands"]
+    }
+  }
+}
+```
+
+### Management Script
+
+Use the included `mcp-cli.sh` script for easy management:
+
+```bash
+./mcp-cli.sh shell    # Open interactive shell
+./mcp-cli.sh logs     # View logs
+./mcp-cli.sh status   # Check status
+./mcp-cli.sh restart  # Restart service
+```
+
+📖 **For detailed documentation, see [MCP-SERVER.md](MCP-SERVER.md)**
 
 <a name="licensed"></a>
 ## Running a Licensed Instance

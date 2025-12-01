@@ -1,0 +1,25 @@
+FROM node:20-alpine
+
+# Instalar dependências do sistema
+RUN apk add --no-cache \
+    bash \
+    curl \
+    git \
+    python3 \
+    make \
+    g++
+
+# Criar diretório de trabalho
+WORKDIR /app
+
+# Instalar o mcp-server-commands globalmente
+RUN npm install -g mcp-server-commands
+
+# Criar diretório para dados persistentes
+RUN mkdir -p /data && chmod 777 /data
+
+# Expor porta para comunicação MCP (se necessário)
+EXPOSE 3000
+
+# Comando padrão para iniciar o MCP server
+CMD ["npx", "mcp-server-commands"]
