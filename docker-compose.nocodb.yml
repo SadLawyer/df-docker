@@ -34,7 +34,7 @@ services:
 
       # Application Settings
       NC_AUTH_JWT_SECRET: "your-super-secret-jwt-key-change-this-in-production"
-      NC_PUBLIC_URL: "http://72.60.51.124:8080"
+      NC_PUBLIC_URL: "http://72.60.51.124:8081"
 
       # Optional: Redis for caching (uncomment if you want to add Redis)
       # NC_REDIS_URL: "redis://nocodb-redis:6379"
@@ -64,7 +64,7 @@ services:
     volumes:
       - nocodb-data:/usr/app/data
     ports:
-      - "8080:8080"
+      - "8081:8080"
     networks:
       - nocodb-network
     healthcheck:
