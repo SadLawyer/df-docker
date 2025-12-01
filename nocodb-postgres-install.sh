@@ -7,7 +7,8 @@ fi
 set -e
 
 # Constants
-NOCO_HOME="/opt/nocodb"
+# Allow override via environment variable
+NOCO_HOME="${NOCO_HOME:-/opt/nocodb}"
 REQUIRED_PORTS=(8081)
 state_file="$NOCO_HOME/noco.state"
 state_dlim="|"
@@ -338,7 +339,63 @@ check_if_docker_is_running() {
 }
 
 check_existing_installation() {
-	mkdir -p "$NOCO_HOME"
+	# Check if directory exists and is writable
+	if [ ! -d "$NOCO_HOME" ]; then
+		print_info "Creating installation directory: $NOCO_HOME"
+		if mkdir -p "$NOCO_HOME" 2>/dev/null; then
+			print_success "Directory created successfully"
+		else
+			print_warning "Permission denied for $NOCO_HOME"
+
+			# Try with sudo
+			if command_exists sudo; then
+				print_info "Attempting with sudo..."
+				if sudo mkdir -p "$NOCO_HOME" 2>/dev/null && sudo chown -R "$USER:$USER" "$NOCO_HOME" 2>/dev/null; then
+					print_success "Directory created with sudo"
+				else
+					# Sudo failed, offer alternative
+					print_warning "Sudo failed or not available."
+					print_empty_line
+					if confirm "Install in current directory instead? ($(pwd)/nocodb)" "Y"; then
+						NOCO_HOME="$(pwd)/nocodb"
+						state_file="$NOCO_HOME/noco.state"
+						mkdir -p "$NOCO_HOME"
+						print_success "Installation directory set to: $NOCO_HOME"
+					else
+						print_error "Installation cancelled. Please run: sudo mkdir -p $NOCO_HOME && sudo chown $USER:$USER $NOCO_HOME"
+						exit 1
+					fi
+				fi
+			else
+				# No sudo available, use current directory
+				print_warning "Sudo not available."
+				print_empty_line
+				if confirm "Install in current directory instead? ($(pwd)/nocodb)" "Y"; then
+					NOCO_HOME="$(pwd)/nocodb"
+					state_file="$NOCO_HOME/noco.state"
+					mkdir -p "$NOCO_HOME"
+					print_success "Installation directory set to: $NOCO_HOME"
+				else
+					print_error "Installation cancelled."
+					exit 1
+				fi
+			fi
+		fi
+	fi
+
+	# Check if directory is writable
+	if [ ! -w "$NOCO_HOME" ]; then
+		print_warning "Directory is not writable. Attempting to fix permissions..."
+		if command_exists sudo; then
+			sudo chown -R "$USER:$USER" "$NOCO_HOME" 2>/dev/null || {
+				print_error "Failed to fix permissions. Directory is not writable."
+				exit 1
+			}
+		else
+			print_error "Directory is not writable and sudo is not available."
+			exit 1
+		fi
+	fi
 
 	if [ -f "$NOCO_HOME/docker-compose.yml" ]; then
 		print_info "NocoDB is already installed at $NOCO_HOME"

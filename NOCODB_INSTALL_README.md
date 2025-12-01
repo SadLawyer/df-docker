@@ -18,10 +18,25 @@ This is an adapted version of the official NocoDB installation script, specifica
 
 ## Usage
 
-### Basic Installation
+### Basic Installation (Default: /opt/nocodb)
 
 ```bash
 ./nocodb-postgres-install.sh
+```
+
+The script will automatically:
+- Try to create `/opt/nocodb`
+- If permission denied, attempt with sudo
+- If sudo fails/unavailable, offer to install in `./nocodb` (current directory)
+
+### Custom Installation Directory
+
+```bash
+# Install in a specific directory
+NOCO_HOME=/home/user/nocodb ./nocodb-postgres-install.sh
+
+# Or install in current directory
+NOCO_HOME=$(pwd)/nocodb ./nocodb-postgres-install.sh
 ```
 
 ### Debug Mode
@@ -120,6 +135,27 @@ Key environment variables in `docker.env`:
 - `NC_S3_*`: MinIO/S3 configuration (if enabled)
 
 ## Troubleshooting
+
+### Permission Issues
+
+If you encounter permission errors creating `/opt/nocodb`:
+
+**Option 1: Pre-create the directory**
+```bash
+sudo mkdir -p /opt/nocodb
+sudo chown $USER:$USER /opt/nocodb
+./nocodb-postgres-install.sh
+```
+
+**Option 2: Install in home directory**
+```bash
+NOCO_HOME=$HOME/nocodb ./nocodb-postgres-install.sh
+```
+
+**Option 3: Install in current directory**
+```bash
+NOCO_HOME=$(pwd)/nocodb ./nocodb-postgres-install.sh
+```
 
 ### Port Already in Use
 
