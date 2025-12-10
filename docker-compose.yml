@@ -71,6 +71,14 @@ services:
 #      MONGO_INITDB_ROOT_USERNAME: mongoadmin
 #      MONGO_INITDB_ROOT_PASSWORD: password
 
+  fillout-mcp:
+    build: ./fillout-mcp
+    environment:
+      FILLOUT_API_KEY: ${FILLOUT_API_KEY}
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
 volumes:
   df-storage:
     driver: local
